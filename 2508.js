@@ -59,4 +59,4 @@ function desglosarMonto(monto) {
     console.log(`\nTotal de combinaciones únicas encontradas: ${resultados.length}`);
 }
 
-desglosarMonto(50);
+desglosarMonto(10);
