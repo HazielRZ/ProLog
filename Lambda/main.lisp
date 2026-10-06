@@ -73,4 +73,35 @@
           bonos))
 
 
+;;; MISIÓN 3 — EL MENSAJE INTERCEPTADO
+
+(defun descifrar-codigo (n)
+  "Convierte un número cifrado a su letra original en el alfabeto."
+  (nth (mod (- n 3) 26) *alfabeto*))
+
+(defun descifrar-palabra (palabra)
+  "Descifra una lista de códigos numéricos a una lista de letras (símbolos)."
+  (mapcar #'descifrar-codigo palabra))
+
+(defun descifrar-mensaje (mensaje)
+  "Descifra un mensaje completo (lista de palabras)."
+  (mapcar #'descifrar-palabra mensaje))
+
+(defun descifrar-mensaje-directo (mensaje)
+  "Descifra un mensaje completo en una sola expresión anidada con dos lambdas."
+  (mapcar (lambda (palabra)
+            (mapcar (lambda (codigo)
+                      (nth (mod (- codigo 3) 26) *alfabeto*))
+                    palabra))
+          mensaje))
+        ;; Extra: Función de cifrado inverso para comprobar reciprocidad
+        (defun cifrar-palabra (palabra)
+          "Cifra una lista de letras devolviendo los códigos numéricos desplazados (+3 mod 26)."
+          (mapcar (lambda (letra)
+                    (mod (+ (position letra *alfabeto*) 3) 26))
+                    palabra))
+
+          (defun cifrar-mensaje (mensaje)
+            "Cifra un mensaje completo de letras a códigos."
+            (mapcar #'cifrar-palabra mensaje))
 
