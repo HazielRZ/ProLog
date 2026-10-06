@@ -45,3 +45,37 @@
     ```lisp
     (130 340 50 230 105 400)
     ```
+
+## Misión 3
+- Mensaje descifrado:
+  - Representación en listas de símbolos:
+    ```lisp
+    ((T R A I D O R) (N I V E L) (C I N C O) (F U E R A) (D E) (M O R E L I A))
+    ```
+  - Texto continuo traducido:
+    `"traidor nivel cinco fuera de morelia"`
+
+- Versión en una sola expresión:
+  ```lisp
+  (mapcar (lambda (palabra)
+            (mapcar (lambda (codigo)
+                      (nth (mod (- codigo 3) 26) *alfabeto*))
+                    palabra))
+          *interceptado*)
+  ```
+
+- (Extra) comprobación de cifrado:
+  - Definición de función inversa:
+    ```lisp
+    (defun cifrar-palabra (palabra)
+      (mapcar (lambda (letra)
+                (mod (+ (position letra *alfabeto*) 3) 26))
+              palabra))
+    ```
+  - Verificación en CLISP:
+    ```lisp
+    (equal (mapcar #'cifrar-palabra (descifrar-mensaje *interceptado*))
+           *interceptado*)
+    ;; => T
+    ```
+    
