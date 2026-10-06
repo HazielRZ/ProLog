@@ -48,7 +48,29 @@
   "Obtiene los puntos acumulados de un agente (quinto elemento)."
   (car (cdr (cdr (cdr (cdr ag))))))
 
+;; Mision 2 pase de Lista
+(defun pase-de-lista (&optional (agentes *agentes*))
+  "Devuelve solo la lista de nombres usando mapcar con una función existente."
+  (mapcar #'car agentes))
 
+(defun nombre-y-nivel (&optional (agentes *agentes*))
+  "Devuelve pares punteados (nombre . nivel) usando mapcar + lambda + cons."
+  (mapcar (lambda (ag)
+            (cons (nombre ag) (nivel ag)))
+          agentes))
+
+(defun cumpleanios (&optional (agentes *agentes*))
+  "Devuelve pares (nombre edad+1) sin modificar la lista original."
+  (mapcar (lambda (ag)
+            (list (nombre ag) (1+ (edad ag))))
+          agentes))
+
+(defun aplicar-bonos (agentes bonos)
+  "Suma el bono correspondiente a los puntos de cada agente usando dos listas."
+  (mapcar (lambda (ag b)
+            (+ (puntos ag) b))
+          agentes
+          bonos))
 
 
 
