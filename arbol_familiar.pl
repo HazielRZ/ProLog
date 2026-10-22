@@ -1,10 +1,4 @@
-% ==============================================================================
-% ÁRBOL GENEALÓGICO FAMILIAR EN PROLOG
-% Materia: Programación Lógica y Funcional
-% Docente: Prof. Jesús Eduardo Alcaraz Chávez
-% Alumno:  Haziel Ruiz Zúñiga
-% Carrera: Ingeniería en Sistemas Computacionales (ITM)
-% ==============================================================================
+
 
 :- discontiguous hombre/1.
 :- discontiguous mujer/1.
