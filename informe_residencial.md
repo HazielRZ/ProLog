@@ -41,7 +41,24 @@ mascota(loro).
 | `dueno(P) :- tiene(P, pez).` | **Regla**    | Implicación lógica compuesta por una cabeza (`dueno(P)`), el conector `:-` (si lógico) y un cuerpo (`tiene(P, pez)`).           |
 
 - Salidas de consultas:
-- ¿Por qué Ana ≠ ana?:
+```prolog
+?- persona(ana).
+true.
+
+?- persona(X).
+X = ana ;
+X = beto ;
+X = carla ;
+X = diego.
+
+?- color(roja).
+true.
+
+?- bebida(jugo).
+false.
+```
+
+- ¿Por qué Ana ≠ ana?: Un nombre en mayúscula en prolog se considera variable no constante, por ende al no estar definida o igualada no son el mismo valor.
 
 ## Misión 2
 - Pistas que sí son hechos directos:
@@ -61,7 +78,7 @@ mascota(loro).
 ## Misión 5
 - Salida de dueno_del_pez / perfil / resumen_pez:
 - Respuesta al mando:
-- Hecho vs regla:
+- Hecho vs. regla:
 
 ## Misión 6
 | ID | Efecto | Causa | Corrección |
@@ -70,7 +87,7 @@ mascota(loro).
 
 ## Extra (si aplica)
 - ¿Una sola solución?:
-- Comparación buscador vs hechos:
+- Comparación buscador vs. hechos:
 
 
 ## Datos:
