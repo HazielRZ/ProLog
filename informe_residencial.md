@@ -61,7 +61,15 @@ false.
 - ¿Por qué Ana ≠ ana?: Un nombre en mayúscula en prolog se considera variable no constante, por ende al no estar definida o igualada no son el mismo valor.
 
 ## Misión 2
-- Pistas que sí son hechos directos:
+
+- ### Pistas que sí son hechos directos
+De las 12 pistas interceptadas, únicamente **4 pistas** relacionan de forma directa y explícita los dos argumentos exactos de alguno de los cuatro predicados obligatorios (`vive_en(P, N)`, `color_casa(N, C)`, `bebe(P, B)`, `tiene(P, M)`) sin requerir cruces ni inferencias previas:
+
+* **Pista 1:** *«Ana vive en la casa 1»* $\rightarrow$ Relaciona directamente Persona (`ana`) y Número de casa (`1`).
+* **Pista 3:** *«Beto bebe café»* $\rightarrow$ Relaciona directamente Persona (`beto`) y Bebida (`cafe`).
+* **Pista 6:** *«Carla bebe leche»* $\rightarrow$ Relaciona directamente Persona (`carla`) y Bebida (`leche`).
+* **Pista 11:** *«Carla tiene el pez»* $\rightarrow$ Relaciona directamente Persona (`carla`) y Mascota (`pez`).
+
 - Hechos escritos:
 - Por qué la pista 4 no es hecho aislado:
 - Salidas:
