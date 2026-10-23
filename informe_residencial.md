@@ -3,7 +3,43 @@
 
 ## Misión 1
 - Hechos de dominio (sí/no cargan):
+
+```prolog
+% Personas (persona/1)
+persona(ana).
+persona(beto).
+persona(carla).
+persona(diego).
+
+% Colores (color/1)
+color(blanca).
+color(verde).
+color(roja).
+color(azul).
+
+% Bebidas (bebida/1)
+bebida(agua).
+bebida(cafe).
+bebida(leche).
+bebida(te).
+
+% Mascotas (mascota/1)
+mascota(gato).
+mascota(perro).
+mascota(pez).
+mascota(loro).
+```
 - Tabla átomo/variable/hecho/regla:
+### Tabla átomo / variable / hecho / regla
+
+| Expresión                    | Tipo         | Justificación técnica                                                                                                           |
+|:-----------------------------|:-------------|:--------------------------------------------------------------------------------------------------------------------------------|
+| `ana`                        | **Átomo**    | Constante simbólica que inicia con letra minúscula y representa una entidad fija del dominio.                                   |
+| `P`                          | **Variable** | Identificador que inicia con letra mayúscula y puede unificarse con cualquier término durante una consulta o regla.             |
+| `persona(carla).`            | **Hecho**    | Cláusula de Horn sin cuerpo (terminada en punto `.`) que afirma incondicionalmente que `carla` cumple el predicado `persona/1`. |
+| `vive_en(ana, 1).`           | **Hecho**    | Cláusula de aridad 2 (`vive_en/2`) que relaciona de forma directa el átomo `ana` con el entero `1`.                             |
+| `dueno(P) :- tiene(P, pez).` | **Regla**    | Implicación lógica compuesta por una cabeza (`dueno(P)`), el conector `:-` (si lógico) y un cuerpo (`tiene(P, pez)`).           |
+
 - Salidas de consultas:
 - ¿Por qué Ana ≠ ana?:
 
