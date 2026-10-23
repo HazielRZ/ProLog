@@ -70,10 +70,25 @@ De las 12 pistas interceptadas, únicamente **4 pistas** relacionan de forma dir
 * **Pista 6:** *«Carla bebe leche»* $\rightarrow$ Relaciona directamente Persona (`carla`) y Bebida (`leche`).
 * **Pista 11:** *«Carla tiene el pez»* $\rightarrow$ Relaciona directamente Persona (`carla`) y Mascota (`pez`).
 
-- Hechos escritos:
-- Por qué la pista 4 no es hecho aislado:
-- Salidas:
+- ### Hechos escritos (en la fase inicial de Misión 2)
 
+```prolog
+vive_en(ana, 1).    % Pista 1
+bebe(beto, cafe).   % Pista 3
+bebe(carla, leche). % Pista 6
+tiene(carla, pez).  % Pista 11
+```
+- ### Por qué la pista 4 no es hecho aislado
+La **Pista 4** (*«La casa verde está inmediatamente a la izquierda de la casa roja»*) no es un hecho aislado del predicado `color_casa(N, C)` porque no asigna un número de casa concreto (`1`, `2`, `3` o `4`) ni al color `verde` ni al color `roja`. En su lugar, expresa una **relación de posición** entre dos incógnitas ($N_{\text{roja}} = N_{\text{verde}} + 1$), la cual admite inicialmente tres pares posibles de casas: $(1,2)$, $(2,3)$ o $(3,4)$.
+- ### Salidas
+
+```prolog
+?- vive_en(ana, N).
+N = 1.
+
+?- bebe(beto, B).
+B = cafe.
+```
 ## Misión 3
 - Reglas escritas (pegar código):
 - Papel de N en color_de:
