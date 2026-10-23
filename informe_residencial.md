@@ -90,7 +90,37 @@ N = 1.
 B = cafe.
 ```
 ## Misión 3
-- Reglas escritas (pegar código):
+- ### Reglas escritas (código):
+```prolog
+% 1. dueno_del_pez(P) — P tiene el pez.
+dueno_del_pez(P) :-
+tiene(P, pez).
+
+% 2. color_de(Persona, Color) — une vive_en con color_casa.
+color_de(Persona, Color) :-
+vive_en(Persona, N),
+color_casa(N, Color).
+
+% 3. vecinos(P1, P2) — viven en casas cuya diferencia de número es 1.
+vecinos(P1, P2) :-
+vive_en(P1, N1),
+vive_en(P2, N2),
+abs(N1 - N2) =:= 1.
+
+% 4. bebe_en_casa(N, B) — en la casa N se bebe B (vía la persona que vive ahí).
+bebe_en_casa(N, B) :-
+vive_en(P, N),
+bebe(P, B).
+
+% 5. perfil(P, N, Color, Bebida, Mascota) — los cinco datos de una persona.
+perfil(P, N, Color, Bebida, Mascota) :-
+persona(P),
+vive_en(P, N),
+color_casa(N, Color),
+bebe(P, Bebida),
+tiene(P, Mascota).
+```
+
 - Papel de N en color_de:
 
 ## Misión 4
