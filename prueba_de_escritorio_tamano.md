@@ -26,7 +26,7 @@ tamano([_ | T], N) :-
 
 ---
 
-## Árbol de Resolución SLD (Resumido)
+## Árbol de Resolución SLD 
 
 ```text
 ?- tamano([1, 2, 3], N).
