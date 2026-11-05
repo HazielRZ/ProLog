@@ -1,8 +1,5 @@
-## 1. Fundamento Técnico del Control Iterativo
 
-En el paradigma imperativo-iterativo, la repetición de instrucciones se fundamenta en la mutación controlada de variables de estado dentro de un único marco de activación en la pila de llamadas (*Call Stack*). Por consiguiente, la complejidad espacial se mantiene constante en $O(1)$, mientras que la complejidad temporal escala linealmente en $O(n)$ respecto al número de iteraciones ejecutadas.
-
-## 2. Implementación en JavaScript (ES6+)
+##  Implementación en JavaScript (ES6+)
 
 ```javascript
 const sumaIterativa = (n) => {
