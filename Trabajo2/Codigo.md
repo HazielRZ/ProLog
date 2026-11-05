@@ -1,6 +1,6 @@
 ## 1. Transición del Estilo Imperativo al Declarativo en JavaScript
 
-Como preámbulo al uso de expresiones simbólicas en Common Lisp, es posible modelar funciones puras y recorrido recursivo de colecciones en JavaScript (ES6+) prescindiendo de ciclos `for`/`while` y evitando efectos secundarios sobre las estructuras de entrada. Para ello se emplea la desestructuración de arreglos (`[cabeza, ...cola]`), la cual constituye un isomorfismo directo respecto a las primitivas `car` y `cdr` de las celdas `cons`.
+Como preámbulo al uso de expresiones simbólicas en Common Lisp, es posible modelar funciones puras y recorrido recursivo de colecciones en JavaScript
 
 ## 2. Implementación Ejecutable ([`3108.js`](3108.js))
 
