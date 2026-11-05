@@ -1,125 +1,59 @@
 class RecubrimientoTrominos {
     /**
      * Resuelve el recubrimiento de una matriz de 2^k x 2^k utilizando el teorema de Golomb.
-     * @param {number} k - El exponente para determinar la dimensión de la matriz.
+     * @param {number} k - Exponente para determinar la dimensión 2^k de la matriz.
      */
     constructor(k) {
         this.n = Math.pow(2, k);
-        // Inicialización segura de la matriz bidimensional con ceros
         this.matriz = Array.from({ length: this.n }, () => Array(this.n).fill(0));
         this.id_tromino = 1;
     }
 
-    /**
-     * Punto de entrada para iniciar el algoritmo.
-     * @param {number} fila_vacia - Coordenada X de la celda deficiente.
-     * @param {number} col_vacia - Coordenada Y de la celda deficiente.
-     */
     resolver(fila_vacia, col_vacia) {
         if (fila_vacia < 0 || fila_vacia >= this.n || col_vacia < 0 || col_vacia >= this.n) {
             throw new Error("Las coordenadas de la celda vacía están fuera de los límites de la matriz.");
         }
 
-        // Se marca la celda deficiente con -1
         this.matriz[fila_vacia][col_vacia] = -1;
         this._recubrir_recursivo(this.n, 0, 0, fila_vacia, col_vacia);
     }
 
-    /**
-     * Función recursiva central basada en el paradigma Divide y Vencerás.
-     */
     _recubrir_recursivo(tamano, fila_inicio, col_inicio, fila_deficiente, col_deficiente) {
-        // Caso base: Submatriz trivial de 1x1
-        if (tamano === 1) {
-            return;
-        }
+        if (tamano === 1) return;
 
         const mitad = Math.floor(tamano / 2);
         const centro_f = fila_inicio + mitad;
         const centro_c = col_inicio + mitad;
+        const tromino_actual = this.id_tromino++;
 
-        const tromino_actual = this.id_tromino;
-        this.id_tromino++;
+        const cuadrantes = [
+            { f0: fila_inicio, c0: col_inicio, cf: centro_f - 1, cc: centro_c - 1 },
+            { f0: fila_inicio, c0: centro_c,   cf: centro_f - 1, cc: centro_c },
+            { f0: centro_f,    c0: col_inicio, cf: centro_f,     cc: centro_c - 1 },
+            { f0: centro_f,    c0: centro_c,   cf: centro_f,     cc: centro_c }
+        ];
 
-        // Determinar ubicación topológica de la celda deficiente
-        let cuadrante_deficiente = -1;
-        if (fila_deficiente < centro_f && col_deficiente < centro_c) {
-            cuadrante_deficiente = 0; // Superior Izquierdo
-        } else if (fila_deficiente < centro_f && col_deficiente >= centro_c) {
-            cuadrante_deficiente = 1; // Superior Derecho
-        } else if (fila_deficiente >= centro_f && col_deficiente < centro_c) {
-            cuadrante_deficiente = 2; // Inferior Izquierdo
-        } else {
-            cuadrante_deficiente = 3; // Inferior Derecho
-        }
+        const cuadrante_deficiente =
+            (fila_deficiente >= centro_f ? 2 : 0) + (col_deficiente >= centro_c ? 1 : 0);
 
-        // Intervención central: posicionar el trominó en los cuadrantes no deficientes
-        if (cuadrante_deficiente !== 0) this.matriz[centro_f - 1][centro_c - 1] = tromino_actual;
-        if (cuadrante_deficiente !== 1) this.matriz[centro_f - 1][centro_c] = tromino_actual;
-        if (cuadrante_deficiente !== 2) this.matriz[centro_f][centro_c - 1] = tromino_actual;
-        if (cuadrante_deficiente !== 3) this.matriz[centro_f][centro_c] = tromino_actual;
-
-        // Propagación recursiva hacia los cuatro cuadrantes
-
-        // Cuadrante 0
-        if (cuadrante_deficiente === 0) {
-            this._recubrir_recursivo(mitad, fila_inicio, col_inicio, fila_deficiente, col_deficiente);
-        } else {
-            this._recubrir_recursivo(mitad, fila_inicio, col_inicio, centro_f - 1, centro_c - 1);
-        }
-
-        // Cuadrante 1
-        if (cuadrante_deficiente === 1) {
-            this._recubrir_recursivo(mitad, fila_inicio, centro_c, fila_deficiente, col_deficiente);
-        } else {
-            this._recubrir_recursivo(mitad, fila_inicio, centro_c, centro_f - 1, centro_c);
-        }
-
-        // Cuadrante 2
-        if (cuadrante_deficiente === 2) {
-            this._recubrir_recursivo(mitad, centro_f, col_inicio, fila_deficiente, col_deficiente);
-        } else {
-            this._recubrir_recursivo(mitad, centro_f, col_inicio, centro_f, centro_c - 1);
-        }
-
-        // Cuadrante 3
-        if (cuadrante_deficiente === 3) {
-            this._recubrir_recursivo(mitad, centro_f, centro_c, fila_deficiente, col_deficiente);
-        } else {
-            this._recubrir_recursivo(mitad, centro_f, centro_c, centro_f, centro_c);
-        }
+        cuadrantes.forEach(({ f0, c0, cf, cc }, i) => {
+            if (i !== cuadrante_deficiente) {
+                this.matriz[cf][cc] = tromino_actual;
+            }
+            const df = i === cuadrante_deficiente ? fila_deficiente : cf;
+            const dc = i === cuadrante_deficiente ? col_deficiente : cc;
+            this._recubrir_recursivo(mitad, f0, c0, df, dc);
+        });
     }
 
-    /**
-     * Emite la matriz estándar formateada en consola.
-     */
     imprimir_resultado() {
         this.matriz.forEach(fila => {
-            // padStart asegura la alineación visual de los identificadores
-            const filaFormateada = fila.map(celda => String(celda).padStart(3, ' ')).join(' ');
-            console.log(filaFormateada);
+            console.log(fila.map(celda => String(celda).padStart(3, ' ')).join(' '));
         });
     }
 }
 
-// ==========================================
-// Ejecución del módulo
-// ==========================================
-
-// k = 3 corresponde a una matriz de 8x8
-// k = 3 define la matriz de 8x8
+// k = 3 define una matriz de 8x8
 const solucionador = new RecubrimientoTrominos(3);
-
-// Coordenadas extraídas de imagen.png (índice 0)
-const celda_faltante_f = 1;
-const celda_faltante_c = 6;
-
-solucionador.resolver(celda_faltante_f, celda_faltante_c);
-
-// La salida en consola agrupará enteros idénticos conformando las formas 'L'
-// equivalentes a los bloques de color (rojo, azul, amarillo) de la imagen.
+solucionador.resolver(1, 6);
 solucionador.imprimir_resultado();
-
-
-// Alternativa de visualización nativa en entornos Node/Navegador:
-// console.table(solucionador.matriz);

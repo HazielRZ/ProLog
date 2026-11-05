@@ -399,22 +399,18 @@ casados(X, Y) :- pareja(Y, X).
 % ------------------------------------------------------------------------------
 % 2.2 Reglas de Padres e Hijos
 % ------------------------------------------------------------------------------
-% X es padre de Y si X es progenitor de Y y X es hombre.
 padre(P, H) :-
     progenitor(P, H),
     hombre(P).
 
-% X es madre de Y si X es progenitor de Y y X es mujer.
 madre(M, H) :-
     progenitor(M, H),
     mujer(M).
 
-% P y M son los padres de H.
 padres(P, M, H) :-
     padre(P, H),
     madre(M, H).
 
-% H es hijo/hija de P.
 hijo(H, P) :-
     progenitor(P, H),
     hombre(H).
@@ -426,24 +422,18 @@ hija(H, P) :-
 % ------------------------------------------------------------------------------
 % 2.3 Reglas de Abuelos, Bisabuelos y Ancestros
 % ------------------------------------------------------------------------------
-% A es abuelo (masculino) de N.
-abuelo(A, N) :-
-    progenitor(A, P),
-    progenitor(P, N),
-    hombre(A).
-
-% A es abuela (femenina) de N.
-abuela(A, N) :-
-    progenitor(A, P),
-    progenitor(P, N),
-    mujer(A).
-
-% A es abuelo o abuela de N (sin distinción de género).
 abuelos(A, N) :-
     progenitor(A, P),
     progenitor(P, N).
 
-% N es nieto o nieta de A.
+abuelo(A, N) :-
+    abuelos(A, N),
+    hombre(A).
+
+abuela(A, N) :-
+    abuelos(A, N),
+    mujer(A).
+
 nieto(N, A) :-
     abuelos(A, N),
     hombre(N).
@@ -452,31 +442,28 @@ nieta(N, A) :-
     abuelos(A, N),
     mujer(N).
 
-% Bisabuelos (3ª generación ascendente)
-bisabuelo(B, N) :-
+bisabuelos(B, N) :-
     progenitor(B, A),
-    abuelos(A, N),
+    abuelos(A, N).
+
+bisabuelo(B, N) :-
+    bisabuelos(B, N),
     hombre(B).
 
 bisabuela(B, N) :-
-    progenitor(B, A),
-    abuelos(A, N),
+    bisabuelos(B, N),
     mujer(B).
 
-% Tatarabuelos (4ª generación ascendente)
 tatarabuelo(T, N) :-
     progenitor(T, B),
-    progenitor(B, A),
-    abuelos(A, N),
+    bisabuelos(B, N),
     hombre(T).
 
 tatarabuela(T, N) :-
     progenitor(T, B),
-    progenitor(B, A),
-    abuelos(A, N),
+    bisabuelos(B, N),
     mujer(T).
 
-% Regla recursiva de Ancestro / Descendiente
 ancestro(A, D) :-
     progenitor(A, D).
 ancestro(A, D) :-
@@ -489,26 +476,21 @@ descendiente(D, A) :-
 % ------------------------------------------------------------------------------
 % 2.4 Reglas de Hermanos
 % ------------------------------------------------------------------------------
-% X y Y son hermanos si comparten al menos un progenitor y son personas distintas.
-% Se usa once/1 en la comprobación o distinción por padre/madre para evitar duplicados.
 hermanos(X, Y) :-
     padre(P, X),
     padre(P, Y),
     X \= Y.
 
-% Caso alternativo cuando solo se registra madre en común (sin padre registrado):
 hermanos(X, Y) :-
     madre(M, X),
     madre(M, Y),
     \+ (padre(P, X), padre(P, Y)),
     X \= Y.
 
-% X es hermano (hombre) de Y.
 hermano(X, Y) :-
     hermanos(X, Y),
     hombre(X).
 
-% X es hermana (mujer) de Y.
 hermana(X, Y) :-
     hermanos(X, Y),
     mujer(X).
@@ -516,32 +498,26 @@ hermana(X, Y) :-
 % ------------------------------------------------------------------------------
 % 2.5 Reglas de Tíos, Sobrinos y Primos
 % ------------------------------------------------------------------------------
-% Tío/tía consanguíneo (hermano o hermana del padre o de la madre)
 tio_consanguineo(T, S) :-
     progenitor(P, S),
     hermanos(T, P).
 
-% Tío/tía político (pareja del hermano o hermana del padre o de la madre)
 tio_politico(T, S) :-
     progenitor(P, S),
     hermanos(H, P),
     casados(T, H).
 
-% T es tío (hombre) de S (incluye consanguíneos y políticos).
-tio(T, S) :-
-    (tio_consanguineo(T, S) ; tio_politico(T, S)),
-    hombre(T).
-
-% T es tía (mujer) de S (incluye consanguíneas y políticas).
-tia(T, S) :-
-    (tio_consanguineo(T, S) ; tio_politico(T, S)),
-    mujer(T).
-
-% T es tío o tía de S (general).
 tios(T, S) :-
     tio_consanguineo(T, S) ; tio_politico(T, S).
 
-% Tíos abuelos (hermanos de los abuelos)
+tio(T, S) :-
+    tios(T, S),
+    hombre(T).
+
+tia(T, S) :-
+    tios(T, S),
+    mujer(T).
+
 tio_abuelo(T, S) :-
     abuelos(A, S),
     hermanos(T, A),
@@ -552,7 +528,6 @@ tia_abuela(T, S) :-
     hermanos(T, A),
     mujer(T).
 
-% S es sobrino/sobrina de T.
 sobrino(S, T) :-
     tios(T, S),
     hombre(S).
@@ -561,7 +536,6 @@ sobrina(S, T) :-
     tios(T, S),
     mujer(S).
 
-% X y Y son primos si sus respectivos progenitores son hermanos.
 primos(X, Y) :-
     progenitor(P1, X),
     progenitor(P2, Y),

@@ -6,16 +6,15 @@
         (diego  41 4 zamora    210)
         (elena  30 2 patzcuaro  90)
         (fausto 26 5 morelia   400)))
+
 (defun intervalo (a b)
   (if (> a b)
       nil
       (cons a (intervalo (+ a 1) b))))
 
-
 (setq *alfabeto* '(a b c d e f g h i j k l m n o p q r s t u v w x y z))
 
-
-;;; mensaje cifrado: una sublista por palabra
+;;; Mensaje cifrado: una sublista por palabra
 (setq *interceptado*
       '((22 20 3 11 6 17 20)
         (16 11 24 7 14)
@@ -26,82 +25,58 @@
 
 (setq *bonos* '(10 0 5 20 15 0))
 
-;;; MISION 1 - EL EXPEDIENTE DESORDENADO
+;;; MISIÓN 1 — EL EXPEDIENTE DESORDENADO
 
-(defun nombre (ag)
-  "Obtiene el nombre de un agente (primer elemento)."
-  (car ag))
+(defun nombre (ag) (car ag))
+(defun edad (ag)   (cadr ag))
+(defun nivel (ag)  (caddr ag))
+(defun base (ag)   (cadddr ag))
+(defun puntos (ag) (car (cddddr ag)))
 
-(defun edad (ag)
-  "Obtiene la edad de un agente (segundo elemento)."
-  (car (cdr ag)))
+;;; MISIÓN 2 — PASE DE LISTA
 
-(defun nivel (ag)
-  "Obtiene el nivel de un agente (tercer elemento)."
-  (car (cdr (cdr ag))))
-
-(defun base (ag)
-  "Obtiene la base operativa de un agente (cuarto elemento)."
-  (car (cdr (cdr (cdr ag)))))
-
-(defun puntos (ag)
-  "Obtiene los puntos acumulados de un agente (quinto elemento)."
-  (car (cdr (cdr (cdr (cdr ag))))))
-
-;; Mision 2 pase de Lista
 (defun pase-de-lista (&optional (agentes *agentes*))
-  "Devuelve solo la lista de nombres usando mapcar con una función existente."
   (mapcar #'car agentes))
 
 (defun nombre-y-nivel (&optional (agentes *agentes*))
-  "Devuelve pares punteados (nombre . nivel) usando mapcar + lambda + cons."
   (mapcar (lambda (ag)
             (cons (nombre ag) (nivel ag)))
           agentes))
 
 (defun cumpleanios (&optional (agentes *agentes*))
-  "Devuelve pares (nombre edad+1) sin modificar la lista original."
   (mapcar (lambda (ag)
             (list (nombre ag) (1+ (edad ag))))
           agentes))
 
 (defun aplicar-bonos (agentes bonos)
-  "Suma el bono correspondiente a los puntos de cada agente usando dos listas."
   (mapcar (lambda (ag b)
             (+ (puntos ag) b))
           agentes
           bonos))
 
-
 ;;; MISIÓN 3 — EL MENSAJE INTERCEPTADO
 
 (defun descifrar-codigo (n)
-  "Convierte un número cifrado a su letra original en el alfabeto."
   (nth (mod (- n 3) 26) *alfabeto*))
 
 (defun descifrar-palabra (palabra)
-  "Descifra una lista de códigos numéricos a una lista de letras (símbolos)."
   (mapcar #'descifrar-codigo palabra))
 
 (defun descifrar-mensaje (mensaje)
-  "Descifra un mensaje completo (lista de palabras)."
   (mapcar #'descifrar-palabra mensaje))
 
 (defun descifrar-mensaje-directo (mensaje)
-  "Descifra un mensaje completo en una sola expresión anidada con dos lambdas."
   (mapcar (lambda (palabra)
             (mapcar (lambda (codigo)
                       (nth (mod (- codigo 3) 26) *alfabeto*))
                     palabra))
           mensaje))
-        ;; Extra: Función de cifrado inverso para comprobar reciprocidad
-        (defun cifrar-palabra (palabra)
-          "Cifra una lista de letras devolviendo los códigos numéricos desplazados (+3 mod 26)."
-          (mapcar (lambda (letra)
-                    (mod (+ (position letra *alfabeto*) 3) 26))
-                    palabra))
 
-          (defun cifrar-mensaje (mensaje)
-            "Cifra un mensaje completo de letras a códigos."
-            (mapcar #'cifrar-palabra mensaje))
+;; Extra: Cifrado inverso para comprobar reciprocidad
+(defun cifrar-palabra (palabra)
+  (mapcar (lambda (letra)
+            (mod (+ (position letra *alfabeto*) 3) 26))
+          palabra))
 
+(defun cifrar-mensaje (mensaje)
+  (mapcar #'cifrar-palabra mensaje))
