@@ -1,12 +1,10 @@
-# Trabajo 4: Expresiones Simbólicas (S-Expressions), Notación Prefija y Definición de Funciones en Common Lisp
+# Trabajo 4: Expresiones , Notación Prefija y Definición de Funciones en Common Lisp
 
-## 1. Fundamento Teórico
 
-Common Lisp es un lenguaje homoicónico donde tanto el código ejecutable como las estructuras de datos se representan mediante expresiones simbólicas (*S-expressions*), compuestas por átomos y listas delimitadas por paréntesis. A diferencia de los lenguajes imperativos con precedencia de operadores infijos, el evaluador de GNU CLISP aplica de forma uniforme la **notación polaca prefija**: en toda lista no cotizada `(operador arg1 arg2 ... argN)`, el primer símbolo se resuelve como una función, macro o forma especial, y los elementos restantes se evalúan de izquierda a derecha antes de ser pasados como argumentos.
 
 El operador especial `quote` (`'`) inhibe la regla de evaluación funcional, devolviendo la expresión literal sin intentar invocar su cabeza como función.
 
-## 2. Tabla de Conversión de Expresiones Infijas a Notación Prefija
+## . Tabla de Conversión de Expresiones Infijas a Notación Prefija
 
 | Expresión Algebraica Infija | Expresión Simbólica en Common Lisp | Valor Evaluado |
 | :--- | :--- | :--- |
