@@ -152,6 +152,7 @@ medicinade(vacuna, rubeola).
 medicinade(vitaminas, anemia).
 medicinade(pastillas, hepatitis).
 medicinade(ya_no_estes_triste, depresion).
+medicinade(clonazepam, depresion).
 
 % --- Declaraciones de especialistas recomendados: especialistade(Especialista, Enfermedad) ---
 
@@ -176,6 +177,7 @@ especialistade(endocrinologia, hepatitis).
 especialistade(medicinageneral, rubeola).
 especialistade(nutricionista, tuberculosis).
 especialistade(medicinageneral, malaria).
+especialistade(psiquiatra, depresion).
 
 
 % =========================================================================
